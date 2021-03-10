@@ -1,11 +1,12 @@
 package game;
 
 import Piace.Piace;
-import game.GameTile;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class Board  extends JFrame {
+public class Board  extends JFrame implements MouseListener {
 
     public static  final int TILE_ROW_SIZE = 7;
     public static  final int  TILE_COL_SIZE = 9;
@@ -19,11 +20,14 @@ public class Board  extends JFrame {
         this.pieceCollection = new  Piace[TILE_ROW_SIZE][TILE_COL_SIZE];
 
 
+        this.pieceCollection[0][0]= (new Dwarf(0,0,Color.red));
+        this.pieceCollection[0][1] = (new Elf(0, 1, Color.YELLOW));
 
 
 
 
-        this.setSize(700,900);
+
+        this.setSize(900,700);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setVisible(true);
 
@@ -40,7 +44,7 @@ public class Board  extends JFrame {
 
 
     }
-/*
+
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -51,7 +55,7 @@ public class Board  extends JFrame {
         if(this.selectedPiece != null) {
 
             // TODO: Update pieceCollection array in order to match the new coordinates
-            Piece p = this.selectedPiece;
+            Piace p = this.selectedPiece;
 
             if(p.isMoveValid(row, col)) {
 
@@ -62,7 +66,7 @@ public class Board  extends JFrame {
         }
         else {
             // new Modal(this, "Внимание", "Невалиден ход, по дъската");
-            Modal.render(this, "Внимание", "Невалиден ход, по дъската");
+           // Modal.render(this, "Внимание", "Невалиден ход, по дъската");
             return;
         }
         // * move
@@ -96,16 +100,16 @@ public class Board  extends JFrame {
     @Override
     public void paint(Graphics g) {
 
-        for(int row = 0; row < 8; row++) {
-            for(int col = 0; col < 8; col++) {
+        for(int row = 0; row < 7; row++) {
+            for(int col = 0; col < 9; col++) {
 
                 this.renderGameTile(g, row, col);
               //  this.renderGamePiece(g, row, col);
             }
         }
-    }*/
-/*
-    private void movePiece(int row, int col, Piece p) {
+    }
+
+    private void movePiece(int row, int col, Piace p) {
         // 1. Get the original coordinates of the selected piece
         int initialRow = p.getRow();
         int initialCol = p.getCol();
@@ -121,7 +125,7 @@ public class Board  extends JFrame {
         // 4. Remove reference to selected piece
         // TODO: Abstraction of selected piece access
         this.selectedPiece = null;
-    }*/
+    }
 
     private Color getTileColor(int row, int col) {
 
@@ -145,7 +149,7 @@ public class Board  extends JFrame {
         tile.render(g);
     }
 
-   /* private Piece getBoardPiece(int row, int col) {
+    private Piace getBoardPiece(int row, int col) {
         return this.pieceCollection[row][col];
     }
 
@@ -157,10 +161,10 @@ public class Board  extends JFrame {
 
         if(this.hasBoardPiece(row, col)) {
 
-            Piece p = this.getBoardPiece(row, col);
+            Piace p = this.getBoardPiece(row, col);
             p.render(g);
         }
-    }*/
+    }
 
     private int getBoardDimentionBasedOnCoordinates(int coordinates) {
         return coordinates / GameTile.TILE_SIZE;
