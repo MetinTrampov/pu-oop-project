@@ -14,12 +14,14 @@ public class Board  extends JFrame implements MouseListener {
 
     public static  final int TILE_ROW_SIZE = 7;
     public static  final int  TILE_COL_SIZE = 9;
-    private static Object Piece [][];
+
 
 
     public Piece[][] pieceCollection;
     private Piece selectedPiece;
     private int team ;
+    public int pointPlayer1 = 0 ;
+    public int pointPlayer2 = 0;
 
     public Board (){
 
@@ -62,6 +64,10 @@ public class Board  extends JFrame implements MouseListener {
 
     }
 
+    /**
+     * Mean method which catch click for mouse and move pieces
+     * @param e
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -128,7 +134,11 @@ public class Board  extends JFrame implements MouseListener {
 
         for(int row = 0; row < 7; row++) {
             for(int col = 0; col < 9; col++) {
-                //addAvatars(x,y ,row,col,g);
+                addPointsOfPlayer1(900,100,g);
+                addPointsOfPlayer2(900,500,g);
+
+                addKnight(920,200,g);
+                addDwarf(1000,200 , g);
                 addElf(1100,200,g);
                 this.renderGameTile(g, row, col);
               this.renderGamePiece(g, row, col);
@@ -136,15 +146,76 @@ public class Board  extends JFrame implements MouseListener {
         }
     }
 
+    /**
+     * Method which draw button  for elf
+     * @param x first coordinate
+     * @param y secoond coordinate
+     * @param g draw method from graphics
+     */
 
     private static void addElf(int x, int y, Graphics g) {
-        g.setColor(Color.white);
+        g.setColor(Color.RED);
         g.fillRect(x, y, 70, 70);
         g.setColor(Color.black);
         g.drawRect(x, y, 70, 70);
         g.setColor(Color.black);
         g.drawString("E", x + 30, y + 40);
+
     }
+
+    /**
+     * Method which draw button  for knight
+     *@param x first coordinate
+     * @param y secoond coordinate
+     * @param g draw method from graphics
+     */
+
+    private static void addKnight(int x, int y, Graphics g) {
+        g.setColor(Color.GREEN);
+        g.fillRect(x, y, 70, 70);
+        g.setColor(Color.black);
+        g.drawRect(x, y, 70, 70);
+        g.setColor(Color.black);
+        g.drawString("K", x + 30, y + 40);
+    }
+    /**
+     * Method which draw button  for dwarf
+     *@param x first coordinate
+     * @param y secoond coordinate
+     * @param g draw method from graphics
+     */
+    private static void addDwarf(int x, int y, Graphics g) {
+        g.setColor(Color.CYAN);
+        g.fillRect(x, y, 70, 70);
+        g.setColor(Color.black);
+        g.drawRect(x, y, 70, 70);
+        g.setColor(Color.black);
+        g.drawString("D", x + 30, y + 40);
+
+    }
+    private static void addPointsOfPlayer1 (int x , int y , Graphics g) {
+        g.setColor(Color.red);
+        g.fillRect(x, y, 70, 70);
+        g.setColor(Color.black);
+        g.drawRect(x, y, 70, 70);
+        g.setColor(Color.black);
+
+    }
+
+    private static void addPointsOfPlayer2(int x , int y , Graphics g) {
+
+        g.setColor(Color.green);
+        g.fillRect(x, y, 70, 70);
+        g.setColor(Color.black);
+        g.drawRect(x, y, 70, 70);
+        g.setColor(Color.black);
+    }
+    /**
+     * method which moves pieces
+     * @param row
+     * @param col
+     * @param p
+     */
     private void movePiece(int row, int col, Piece p) {
         // 1. Get the original coordinates of the selected piece
         int initialRow = p.getRow();
@@ -163,6 +234,12 @@ public class Board  extends JFrame implements MouseListener {
         this.selectedPiece = null;
     }
 
+    /**
+     * method whcih drawing game board
+     * @param row
+     * @param col
+     * @return
+     */
     private Color getTileColor(int row, int col) {
         boolean isBattleRow = false ;
         if (row == 2){
@@ -187,7 +264,12 @@ public class Board  extends JFrame implements MouseListener {
         return Color.BLACK;
     }
 
-
+    /**
+     * method which drawing game tile
+     * @param g
+     * @param row
+     * @param col
+     */
     private void renderGameTile(Graphics g, int row, int col) {
 
         Color tileColor = this.getTileColor(row, col);
@@ -195,6 +277,12 @@ public class Board  extends JFrame implements MouseListener {
         tile.render(g);
     }
 
+    /**
+     * method which check for pieces
+     * @param row
+     * @param col
+     * @return
+     */
     private Piece getBoardPiece(int row, int col) {
         return this.pieceCollection[row][col];
     }
@@ -203,6 +291,12 @@ public class Board  extends JFrame implements MouseListener {
         return this.getBoardPiece(row, col) != null;
     }
 
+    /**
+     * method which draw pieces
+     * @param g
+     * @param row
+     * @param col
+     */
     private void renderGamePiece(Graphics g, int row, int col) {
 
         if(this.hasBoardPiece(row, col)) {
