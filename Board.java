@@ -3,6 +3,8 @@ package game;
 import Piace.Dwarf;
 import Piace.Elf;
 import Piace.Piece;
+import Piace.Кnight;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -12,9 +14,10 @@ public class Board  extends JFrame implements MouseListener {
 
     public static  final int TILE_ROW_SIZE = 7;
     public static  final int  TILE_COL_SIZE = 9;
+    private static Object Piece [][];
 
 
-    private Piece[][] pieceCollection;
+    public Piece[][] pieceCollection;
     private Piece selectedPiece;
     private int team ;
 
@@ -36,6 +39,11 @@ public class Board  extends JFrame implements MouseListener {
         this.pieceCollection[6][4] = (new Elf(6,4,Color.RED,team));
         this.pieceCollection[5][2] = (new Elf(5,2,Color.RED,team));
 
+        this.pieceCollection[0][2] = (new Кnight(0,2,Color.GREEN,team));
+        this.pieceCollection[1][6] = (new Кnight(1,6,Color.GREEN,team));
+        this.pieceCollection[6][2] = (new Кnight(6,2,Color.GREEN,team));
+        this.pieceCollection[5][5] = (new Кnight(5,5,Color.GREEN,team));
+
 
 
 
@@ -52,19 +60,6 @@ public class Board  extends JFrame implements MouseListener {
         this.addMouseListener(this);
         this.setVisible(true);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     @Override
@@ -74,11 +69,11 @@ public class Board  extends JFrame implements MouseListener {
         int col = this.getBoardDimentionBasedOnCoordinates(e.getX());
 
         // check if piece is already selected
-        if(this.selectedPiece != null) {
+        if (this.selectedPiece != null) {
 
             // TODO: Update pieceCollection array in order to match the new coordinates
             Piece p = this.selectedPiece;
-            p.move(row,col);
+            p.move(row, col);
             this.selectedPiece = null;
 
             this.repaint();
@@ -88,13 +83,15 @@ public class Board  extends JFrame implements MouseListener {
                 this.repaint();
                 return;
             }*/
-        }
-      /*  else {
+
+        if (!p.isMoveValid(row,col)) {
             // new game.Modal(this, "Внимание", "Невалиден ход, по дъската");
 
-           //this.setLocationRelativeTo(null); Modal.render(this, "Внимание", "Невалиден ход, по дъската");
+            //this.setLocationRelativeTo(null);
+            Modal.render(this, "Внимание", "Невалиден ход, по дъската");
             return;
-        }*/
+        }
+    }
         // * move
 
         // check if piece is available
@@ -126,21 +123,34 @@ public class Board  extends JFrame implements MouseListener {
     @Override
     public void paint(Graphics g) {
 
+        int x =0;
+        int y = 0;
+
         for(int row = 0; row < 7; row++) {
             for(int col = 0; col < 9; col++) {
-
+                //addAvatars(x,y ,row,col,g);
+                addElf(1100,200,g);
                 this.renderGameTile(g, row, col);
               this.renderGamePiece(g, row, col);
             }
         }
     }
 
+
+    private static void addElf(int x, int y, Graphics g) {
+        g.setColor(Color.white);
+        g.fillRect(x, y, 70, 70);
+        g.setColor(Color.black);
+        g.drawRect(x, y, 70, 70);
+        g.setColor(Color.black);
+        g.drawString("E", x + 30, y + 40);
+    }
     private void movePiece(int row, int col, Piece p) {
         // 1. Get the original coordinates of the selected piece
         int initialRow = p.getRow();
         int initialCol = p.getCol();
 
-        // 2. Move the piece to trhe new coordinates
+        // 2. Move the piece to the new coordinates
         p.move(row, col);
 
         // 3. Swap the reference to the selected piece from the original coordinates
@@ -205,21 +215,7 @@ public class Board  extends JFrame implements MouseListener {
     private int getBoardDimentionBasedOnCoordinates(int coordinates) {
         return coordinates / GameTile.TILE_SIZE;
     }
-  /*  public void paint (Graphics g){
 
-        super.paint(g);
-
-        for (int row = 0; row < 9; row++) {
-
-            for (int col = 0; col < 7 ; col++) {
-
-                game.GameTile tile = new game.GameTile(row,col);
-                tile.render(g);
-            }
-
-        }
-
-    }*/
 
 
 
