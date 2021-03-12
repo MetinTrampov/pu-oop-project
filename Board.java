@@ -193,6 +193,13 @@ public class Board  extends JFrame implements MouseListener {
         g.drawString("D", x + 30, y + 40);
 
     }
+
+    /**
+     * method which contains points of player 1
+     * @param x
+     * @param y
+     * @param g
+     */
     private static void addPointsOfPlayer1 (int x , int y , Graphics g) {
         g.setColor(Color.red);
         g.fillRect(x, y, 70, 70);
@@ -201,7 +208,12 @@ public class Board  extends JFrame implements MouseListener {
         g.setColor(Color.black);
 
     }
-
+    /**
+     * method which contains points of player 2
+     * @param x
+     * @param y
+     * @param g
+     */
     private static void addPointsOfPlayer2(int x , int y , Graphics g) {
 
         g.setColor(Color.green);
