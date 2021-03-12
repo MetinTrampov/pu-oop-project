@@ -1,10 +1,25 @@
 package Piace;
 
+
 import java.awt.*;
 
-public class Dwarf extends Piace {
+public class Dwarf extends Piece {
 
-    public Dwarf(int row, int col, Color color) {
+
+
+
+    public Dwarf(int team) {
+        super(team);
+        attack = 6;
+        armor = 2;
+        health = 12;
+        attack_square = 2;
+        speed = 2;
+    }
+
+    public Dwarf(int row, int col, Color color,int team) {
+
+        super(team);
 
         this.row    = row;
         this.col    = col;
